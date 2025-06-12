@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+<!-- Set the page title -->
+{% block title %}Market Page{% endblock %}
+<!-- Main content block -->
+{% block content %}
+<!-- Header section -->
+<div class="mb-8">
+  <!-- Section heading -->
+  <h2 class="text-4xl font-extrabold text-purple-300 mb-4">Marketplace</h2>
+  <!-- Instructional text -->
+  <p class="text-gray-300 text-lg">Discover and trade items with ease</p>
+</div>
+
+<!-- Filters and search -->
+<div
+  class="flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0 md:space-x-4"
+>
+  <!-- Search bar -->
+  <div class="w-full md:w-1/3">
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Search items..."
+      class="glass-effect p-3 rounded-lg text-white placeholder-gray-400 w-full focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+    />
+  </div>
+  <!-- Category filter -->
+  <div class="w-full md:w-1/3">
+    <select
+      id="categoryFilter"
+      class="glass-effect p-3 rounded-lg text-white w-full focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+    >
+      <option value="all">All Categories</option>
+      <option value="electronics">Electronics</option>
+      <option value="furniture">Furniture</option>
+      <option value="clothing">Clothing</option>
+    </select>
+  </div>
+  <!-- Sort options -->
+  <div class="w-full md:w-1/3">
+    <select
+      id="sortSelect"
+      class="glass-effect p-3 rounded-lg text-white w-full focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+    >
+      <option value="name">Sort by Name</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+    </select>
+  </div>
+</div>
+
+<!-- Main content layout -->
+<div class="flex flex-col lg:flex-row gap-8">
+  <!-- Available Items Section -->
+  <div class="lg:w-2/3">
+    <!-- Card for available items -->
+    <div class="glass-effect p-6 rounded-xl">
+      <!-- Section heading -->
+      <h3 class="text-2xl font-bold text-indigo-200 mb-4">Available Items</h3>
+      <!-- Items container -->
+      <div id="itemsContainer">
+        {% for item in items %}
+        <!-- Include modals for each item -->
+        {% include 'includes/items_modals.html' %}
+        <!-- Item row with fade-in animation -->
+        <div
+          class="item-row fade-in mb-4 p-4 rounded-lg hover-lift bg-gray-800 bg-opacity-50 transition relative"
+          data-category="electronics"
+          data-price="{{ item.price }}"
+        >
+          <!-- Item content -->
+          <div class="flex justify-between items-center">
+            <!-- Item details -->
+            <div>
+              <!-- Item name -->
+              <h4 class="item-name text-lg font-semibold text-indigo-300">
+                {{ item.name }}
+              </h4>
+              <!-- Item barcode -->
+              <p class="text-gray-400 text-sm">Barcode: {{ item.barcode }}</p>
+              <!-- Item price -->
+              <p class="text-green-400 font-semibold">{{ item.price }}$</p>
+            </div>
+            <!-- Action buttons -->
+            <div class="flex space-x-3">
+              <!-- More Info button -->
+              <button
+                class="hover-lift bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center"
+                data-toggle="modal"
+                data-target="#Modal-MoreInfo-{{ item.id }}"
+              >
+                <i class="fas fa-info-circle mr-2"></i> Details
+              </button>
+              <!-- Purchase button -->
+              <button
+                class="hover-lift bg-green-600 text-white px-4 py-2 rounded-lg flex items-center"
+                data-toggle="modal"
+                data-target="#Modal-PurchaseConfirm-{{ item.id }}"
+              >
+                <i class="fas fa-shopping-cart mr-2"></i> Buy
+              </button>
+            </div>
+          </div>
+          <!-- Quick view on hover -->
+          <div
+            class="absolute top-0 left-0 w-full h-full bg-gray-900 bg-opacity-90 rounded-lg hidden group-hover:block p-4"
+          >
+            <p class="text-gray-300">{{ item.description }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- Owned Items Section -->
+  <div class="lg:w-1/3">
+    <!-- Card for owned items -->
+    <div class="glass-effect p-6 rounded-xl">
+      <!-- Section heading -->
+      <h3 class="text-2xl font-bold text-yellow-300 mb-4">Your Items</h3>
+      <!-- Owned items grid -->
+      <div class="space-y-4">
+        {% for owned_item in owned_items %}
+        <!-- Include modals for each owned item -->
+        {% include 'includes/owned_items_modals.html' %}
+        <!-- Owned item card -->
+        <div
+          class="fade-in glass-effect p-4 rounded-lg text-center hover-lift transition"
+        >
+          <!-- Item name -->
+          <h5 class="text-lg font-semibold text-indigo-300">
+            {{ owned_item.name }}
+          </h5>
+          <!-- Item price -->
+          <p class="text-green-400">Worth {{ owned_item.price }}$</p>
+          <!-- Sell button -->
+          <button
+            type="button"
+            class="hover-lift bg-red-600 text-white px-4 py-2 rounded-lg mt-2 flex items-center mx-auto"
+            data-toggle="modal"
+            data-target="#Modal-SellingConfirm-{{ owned_item.id }}"
+          >
+            <i class="fas fa-arrow-circle-up mr-2"></i> Sell
+          </button>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

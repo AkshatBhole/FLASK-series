@@ -1,0 +1,91 @@
+# =========================
+# Python + Flask Project
+# =========================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual Environments
+venv/
+.env/
+.venv/
+ENV/
+env/
+pip-selfcheck.json
+
+# Flask cache / instance folder
+instance/
+.webassets-cache
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+pytest_cache/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# VSCode / IDE / Editor folders
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Database
+*.sqlite3
+*.db
+market.db
+
+# Env configuration
+.env
+.env.*
+
+# Flask secret key file (if used)
+secret_key.txt
+config.py
+
+# Package builds
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Pyre (type checker)
+.pyre/
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Profiling data
+.prof
+
+# Other user-defined
+*.bak

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Set character encoding for the document -->
+    <meta charset="UTF-8" />
+    <!-- Ensure proper rendering and touch zooming on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Set the page title, to be overridden by child templates -->
+    <title>{% block title %}Flask Market{% endblock %}</title>
+    <!-- Include Tailwind CSS from CDN for modern styling -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <!-- Include Font Awesome CSS from CDN for icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <!-- Custom CSS for additional styling and animations -->
+    <style>
+      /* Full-screen gradient background */
+      body {
+        background: linear-gradient(135deg, #1e3a8a, #4f46e5, #7c3aed);
+        min-height: 100vh;
+        color: #ffffff;
+        font-family: "Inter", sans-serif;
+      }
+      /* Glassmorphism effect for cards and modals */
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+      /* Hover effect for buttons and cards */
+      .hover-lift:hover {
+        transform: translateY(-4px);
+        transition: transform 0.3s ease-in-out;
+      }
+      /* Fade-in animation for elements */
+      .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      /* Modal slide-in animation */
+      .modal-content {
+        animation: slideIn 0.3s ease-out;
+      }
+      @keyframes slideIn {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #2d3748;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #7c3aed;
+        border-radius: 4px;
+      }
+      /* Form input focus animation */
+      .form-input:focus + .form-label,
+      .form-input:not(:placeholder-shown) + .form-label {
+        transform: translateY(-2.5rem) scale(0.85);
+        color: #a5b4fc;
+        transition: all 0.3s ease;
+      }
+      .form-label {
+        transition: all 0.3s ease;
+      }
+      /* Navbar styles */
+      .navbar {
+        min-height: 90px;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+      }
+      .navbar-brand {
+        font-size: 2.5rem;
+      }
+      .nav-link {
+        font-size: 1.35rem;
+        padding: 1rem 2rem !important;
+      }
+      .budget-display,
+      .budget-amount {
+        font-size: 1.35rem !important;
+      }
+      .glass-card,
+      .card,
+      .modal-content,
+      .form-control,
+      .alert,
+      .table-modern th,
+      .table-modern td,
+      .modal-title,
+      .modal-body,
+      .modal-footer,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      label,
+      input,
+      button,
+      p,
+      span,
+      a {
+        font-size: 1.25rem !important;
+      }
+      .display-3,
+      .display-4 {
+        font-size: 3.5rem !important;
+      }
+      .btn,
+      .btn-modern {
+        font-size: 1.25rem !important;
+        padding: 1rem 2.5rem !important;
+      }
+      .modal-title {
+        font-size: 2rem !important;
+      }
+      .modal-body,
+      .modal-footer {
+        font-size: 1.25rem !important;
+      }
+    </style>
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <!-- Broadened navbar with gradient and glass effect -->
+    <nav
+      class="bg-gradient-to-r from-indigo-900 to-purple-900 glass-effect py-8 px-0 shadow-lg"
+    >
+      <!-- Container with no padding for edge-to-edge alignment -->
+      <div class="w-full flex justify-between items-center px-6">
+        <!-- Brand logo aligned to the leftmost edge -->
+        <a
+          class="text-4xl font-extrabold text-white flex items-center"
+          href="{{ url_for('home_page') }}"
+        >
+          <i class="fas fa-store mr-3 text-purple-400"></i> Flask Market
+        </a>
+        <!-- Navigation links and user profile aligned to the rightmost edge -->
+        <div class="flex items-center space-x-8">
+          <!-- Home link -->
+          <a
+            class="text-lg text-white hover:text-purple-300 transition"
+            href="{{ url_for('home_page') }}"
+            >Home</a
+          >
+          <!-- Market link -->
+          <a
+            class="text-lg text-white hover:text-purple-300 transition"
+            href="{{ url_for('market_page') }}"
+            >Market</a
+          >
+          {% if current_user.is_authenticated %}
+          <!-- User profile dropdown -->
+          <div class="relative">
+            <!-- Dropdown trigger -->
+            <button
+              class="flex items-center text-white hover:text-purple-300 transition"
+            >
+              <i class="fas fa-user-circle mr-2 text-2xl"></i>
+              <span>{{ current_user.username }}</span>
+              <i class="fas fa-chevron-down ml-2"></i>
+            </button>
+            <!-- Dropdown menu -->
+            <div
+              class="absolute right-0 mt-2 w-48 glass-effect rounded-lg shadow-lg hidden group-hover:block"
+            >
+              <!-- Budget display -->
+              <div class="px-4 py-2 text-green-400">
+                {{ current_user.prettier_budget }}
+              </div>
+              <!-- Profile link -->
+              <a
+                href="#"
+                class="block px-4 py-2 text-white hover:bg-purple-700 hover:bg-opacity-50 rounded-t-lg"
+                >Profile</a
+              >
+              <!-- Settings link -->
+              <a
+                href="#"
+                class="block px-4 py-2 text-white hover:bg-purple-700 hover:bg-opacity-50"
+                >Settings</a
+              >
+              <!-- Logout link -->
+              <a
+                href="{{ url_for('logout_page') }}"
+                class="block px-4 py-2 text-white hover:bg-purple-700 hover:bg-opacity-50 rounded-b-lg"
+                >Logout</a
+              >
+            </div>
+          </div>
+          {% else %}
+          <!-- Login link -->
+          <a
+            class="text-lg text-white hover:text-purple-300 transition"
+            href="{{ url_for('login_page') }}"
+            >Login</a
+          >
+          <!-- Register link -->
+          <a
+            class="text-lg text-white hover:text-purple-300 transition"
+            href="{{ url_for('register_page') }}"
+            >Register</a
+          >
+          {% endif %}
+        </div>
+      </div>
+    </nav>
+
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <!-- Container for flash messages with leftmost alignment -->
+    <div class="w-full px-6 mt-6">
+      {% for category, message in messages %}
+      <!-- Flash message with Tailwind styling -->
+      <div
+        class="glass-effect p-4 rounded-lg mb-4 flex justify-between items-center {% if category == 'success' %} bg-green-500 bg-opacity-20 {% elif category == 'danger' %} bg-red-500 bg-opacity-20 {% elif category == 'info' %} bg-blue-500 bg-opacity-20 {% endif %}"
+      >
+        <span>{{ message }}</span>
+        <!-- Close button -->
+        <button
+          type="button"
+          class="text-white"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <!-- Main content area with leftmost alignment -->
+    <main class="flex-grow w-full px-6 mt-8">
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 bg-opacity-90 glass-effect py-8 mt-12">
+      <!-- Container for footer content -->
+      <div class="w-full px-6">
+        <!-- Footer grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- About section -->
+          <div>
+            <h3 class="text-xl font-bold text-purple-300 mb-4">
+              About Flask Market
+            </h3>
+            <p class="text-gray-300">
+              A modern marketplace to buy and sell items with ease and security.
+              Join our growing community today!
+            </p>
+          </div>
+          <!-- Quick links -->
+          <div>
+            <h3 class="text-xl font-bold text-purple-300 mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="{{ url_for('home_page') }}"
+                  class="text-gray-300 hover:text-purple-300 transition"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="{{ url_for('market_page') }}"
+                  class="text-gray-300 hover:text-purple-300 transition"
+                  >Market</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-purple-300 transition"
+                  >FAQ</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-300 hover:text-purple-300 transition"
+                  >Contact Us</a
+                >
+              </li>
+            </ul>
+          </div>
+          <!-- Newsletter subscription -->
+          <div>
+            <h3 class="text-xl font-bold text-purple-300 mb-4">Newsletter</h3>
+            <p class="text-gray-300 mb-4">
+              Subscribe to get the latest updates and offers.
+            </p>
+            <form class="flex space-x-2">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                class="glass-effect p-2 rounded-lg text-white placeholder-gray-400 w-full focus:outline-none"
+              />
+              <button
+                type="submit"
+                class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition"
+              >
+                Subscribe
+              </button>
+            </form>
+          </div>
+        </div>
+        <!-- Footer bottom -->
+        <div class="mt-8 text-center text-gray-400">
+          <p>© 2025 Flask Market. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Include jQuery for Bootstrap modals -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- Include Popper.js for Bootstrap modals -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <!-- Include Bootstrap JavaScript for modals -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript for search, filter, and dropdown -->
+    <script>
+      // Search functionality
+      document
+        .getElementById("searchInput")
+        ?.addEventListener("input", function (e) {
+          const searchTerm = e.target.value.toLowerCase();
+          const items = document.querySelectorAll(".item-row");
+          items.forEach((item) => {
+            const name = item
+              .querySelector(".item-name")
+              .textContent.toLowerCase();
+            item.style.display = name.includes(searchTerm) ? "" : "none";
+          });
+        });
+
+      // Category filter
+      document
+        .getElementById("categoryFilter")
+        ?.addEventListener("change", function (e) {
+          const category = e.target.value;
+          const items = document.querySelectorAll(".item-row");
+          items.forEach((item) => {
+            const itemCategory = item.dataset.category;
+            item.style.display =
+              category === "all" || itemCategory === category ? "" : "none";
+          });
+        });
+
+      // Sort items
+      document
+        .getElementById("sortSelect")
+        ?.addEventListener("change", function (e) {
+          const sortBy = e.target.value;
+          const itemsContainer = document.getElementById("itemsContainer");
+          const items = Array.from(
+            itemsContainer.querySelectorAll(".item-row")
+          );
+          items.sort((a, b) => {
+            if (sortBy === "price-asc") {
+              return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+            } else if (sortBy === "price-desc") {
+              return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+            } else if (sortBy === "name") {
+              return a
+                .querySelector(".item-name")
+                .textContent.localeCompare(
+                  b.querySelector(".item-name").textContent
+                );
+            }
+            return 0;
+          });
+          items.forEach((item) => itemsContainer.appendChild(item));
+        });
+
+      // Show dropdown on hover
+      const dropdowns = document.querySelectorAll(".relative");
+      dropdowns.forEach((dropdown) => {
+        dropdown.addEventListener("mouseenter", () => {
+          dropdown
+            .querySelector(".group-hover\\:block")
+            .classList.remove("hidden");
+        });
+        dropdown.addEventListener("mouseleave", () => {
+          dropdown
+            .querySelector(".group-hover\\:block")
+            .classList.add("hidden");
+        });
+      });
+    </script>
+  </body>
+</html>

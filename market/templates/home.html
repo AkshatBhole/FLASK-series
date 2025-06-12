@@ -1,0 +1,209 @@
+{% extends 'base.html' %} {% block title %}Flask Market - Home{% endblock %} {%
+block content %}
+
+<!-- Hero Section with Modern Design -->
+<div class="row min-vh-100 align-items-center justify-content-center">
+  <div class="col-12">
+    <!-- Main Hero Card -->
+    <div
+      class="glass-card p-5 text-center mb-4"
+      style="max-width: 800px; margin: 0 auto"
+    >
+      <!-- Animated Logo/Icon -->
+      <div class="mb-4">
+        <div style="display: inline-block; position: relative">
+          <i
+            class="fas fa-store"
+            style="
+              font-size: 4rem;
+              background: var(--accent-gradient);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              animation: float 3s ease-in-out infinite;
+            "
+          ></i>
+
+          <!-- Floating particles around logo -->
+          <div
+            style="
+              position: absolute;
+              top: -10px;
+              left: -10px;
+              width: 20px;
+              height: 20px;
+              background: var(--accent-gradient);
+              border-radius: 50%;
+              opacity: 0.6;
+              animation: orbit 4s linear infinite;
+            "
+          ></div>
+          <div
+            style="
+              position: absolute;
+              top: -5px;
+              right: -15px;
+              width: 15px;
+              height: 15px;
+              background: var(--warning-gradient);
+              border-radius: 50%;
+              opacity: 0.4;
+              animation: orbit 6s linear infinite reverse;
+            "
+          ></div>
+          <div
+            style="
+              position: absolute;
+              bottom: -8px;
+              left: 50%;
+              width: 18px;
+              height: 18px;
+              background: var(--success-gradient);
+              border-radius: 50%;
+              opacity: 0.5;
+              animation: orbit 5s linear infinite;
+              transform: translateX(-50%);
+            "
+          ></div>
+        </div>
+      </div>
+
+      <!-- Main Heading with Gradient Text -->
+      <h1
+        class="display-3 fw-bold mb-4"
+        style="font-family: 'Space Grotesk', sans-serif"
+      >
+        <span class="text-gradient-primary">Welcome to</span><br />
+        <span class="text-gradient-accent text-glow">Flask Market</span>
+      </h1>
+
+      <!-- Subtitle with typing animation effect -->
+      <p
+        class="lead mb-5"
+        style="
+          font-size: 1.3rem;
+          color: var(--text-secondary);
+          max-width: 600px;
+          margin: 0 auto;
+        "
+      >
+        <span id="typing-text"
+          >Your modern marketplace for buying and selling items with style and
+          ease</span
+        >
+        <span class="typing-cursor">|</span>
+      </p>
+
+      <!-- Feature Pills -->
+      <div class="row mb-5">
+        <div class="col-md-4 mb-3">
+          <div
+            class="glass-card p-3 h-100"
+            style="border: 1px solid rgba(67, 233, 123, 0.3)"
+          >
+            <i
+              class="fas fa-shield-alt mb-2"
+              style="font-size: 2rem; color: #43e97b"
+            ></i>
+            <h5 class="text-gradient-accent">Secure Trading</h5>
+            <p class="small text-muted mb-0">
+              Safe and secure transactions with user authentication
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div
+            class="glass-card p-3 h-100"
+            style="border: 1px solid rgba(79, 172, 254, 0.3)"
+          >
+            <i
+              class="fas fa-rocket mb-2"
+              style="font-size: 2rem; color: #4facfe"
+            ></i>
+            <h5 class="text-gradient-accent">Fast & Easy</h5>
+            <p class="small text-muted mb-0">
+              Quick registration and instant marketplace access
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div
+            class="glass-card p-3 h-100"
+            style="border: 1px solid rgba(250, 112, 154, 0.3)"
+          >
+            <i
+              class="fas fa-users mb-2"
+              style="font-size: 2rem; color: #fa709a"
+            ></i>
+            <h5 class="text-gradient-accent">Community</h5>
+            <p class="small text-muted mb-0">
+              Join a growing community of traders and sellers
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons with Enhanced Design -->
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        <!-- Register Button (Primary CTA) -->
+        <a
+          href="{{ url_for('register_page') }}"
+          class="btn btn-modern btn-primary-modern btn-lg px-4 py-3 position-relative"
+        >
+          <i class="fas fa-user-plus me-2"></i>
+          <span>Get Started</span>
+          <!-- Button glow effect -->
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: var(--primary-gradient);
+              border-radius: 25px;
+              opacity: 0.3;
+              filter: blur(8px);
+              z-index: -1;
+            "
+          ></div>
+        </a>
+
+        <!-- Login Button -->
+        <a
+          href="{{ url_for('login_page') }}"
+          class="btn btn-modern btn-outline-modern btn-lg px-4 py-3"
+          style="border-color: var(--text-accent); color: var(--text-accent)"
+        >
+          <i class="fas fa-sign-in-alt me-2"></i>
+          <span>Sign In</span>
+        </a>
+
+        <!-- Market Button -->
+        <a
+          href="{{ url_for('market_page') }}"
+          class="btn btn-modern btn-success-modern btn-lg px-4 py-3 position-relative"
+        >
+          <i class="fas fa-shopping-bag me-2"></i>
+          <span>Browse Market</span>
+          <!-- Button glow effect -->
+          <div
+            style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              background: var(--success-gradient);
+              border-radius: 25px;
+              opacity: 0.3;
+              filter: blur(8px);
+              z-index: -1;
+            "
+          ></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

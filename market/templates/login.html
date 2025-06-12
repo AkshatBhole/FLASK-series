@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+<!-- Set the page title -->
+{% block title %}Login - Flask Market{% endblock %}
+<!-- Main content block -->
+{% block content %}
+<!-- Centered login form -->
+<div class="flex items-center justify-center min-h-[calc(100vh-12rem)]">
+  <!-- Form container with glassmorphism effect -->
+  <div class="glass-effect p-8 rounded-xl w-full max-w-md fade-in">
+    <!-- Form heading -->
+    <h2 class="text-3xl font-bold text-indigo-200 mb-6 text-center">
+      Login to Your Account
+    </h2>
+    <!-- Login form -->
+    <form method="POST" action="{{ url_for('login_page') }}">
+      <!-- CSRF token -->
+      {{ form.hidden_tag() }}
+      <!-- Username field -->
+      <div class="relative mb-6">
+        <!-- Username input -->
+        {{ form.username(class="form-input glass-effect p-3 rounded-lg
+        text-white placeholder-transparent w-full focus:outline-none
+        focus:ring-2 focus:ring-purple-500 transition peer",
+        placeholder="Username") }}
+        <!-- Floating label -->
+        <label
+          for="username"
+          class="form-label absolute left-3 top-3 text-gray-400 pointer-events-none peer-focus:-translate-y-6 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100"
+          >Username</label
+        >
+      </div>
+      <!-- Password field -->
+      <div class="relative mb-6">
+        <!-- Password input -->
+        {{ form.password(class="form-input glass-effect p-3 rounded-lg
+        text-white placeholder-transparent w-full focus:outline-none
+        focus:ring-2 focus:ring-purple-500 transition peer",
+        placeholder="Password") }}
+        <!-- Floating label -->
+        <label
+          for="password"
+          class="form-label absolute left-3 top-3 text-gray-400 pointer-events-none peer-focus:-translate-y-6 peer-focus:scale-75 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100"
+          >Password</label
+        >
+      </div>
+      <!-- Submit button -->
+      {{ form.submit(class="hover-lift bg-purple-600 text-white px-4 py-3
+      rounded-lg w-full font-semibold transition") }}
+    </form>
+    <!-- Link to register page -->
+    <p class="text-gray-300 mt-6 text-center">
+      Don't have an account?
+      <a
+        href="{{ url_for('register_page') }}"
+        class="text-purple-300 hover:text-purple-400 transition"
+        >Register here</a
+      >
+    </p>
+  </div>
+</div>
+{% endblock %}

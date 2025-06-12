@@ -1,0 +1,75 @@
+<!-- Selling Confirm Modal -->
+<div
+  class="modal fade"
+  id="Modal-SellingConfirm-{{ owned_item.id }}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="ModalLabel-{{ owned_item.id }}"
+  aria-hidden="true"
+>
+  <!-- Modal dialog container -->
+  <div class="modal-dialog" role="document">
+    <!-- Modal content with glassmorphism effect -->
+    <div class="modal-content glass-effect rounded-xl">
+      <!-- Modal header -->
+      <div
+        class="flex justify-between items-center p-4 border-b border-gray-700"
+      >
+        <!-- Item name -->
+        <h5
+          class="text-xl font-bold text-indigo-200"
+          id="ModalLabel-{{ owned_item.id }}"
+        >
+          {{ owned_item.name }}
+        </h5>
+        <!-- Close button -->
+        <button
+          type="button"
+          class="text-white hover:text-gray-300 transition"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Modal body with form -->
+      <div class="p-4">
+        <!-- Form for sell submission -->
+        <form method="POST" action="{{ url_for('market_page') }}">
+          <!-- CSRF token -->
+          {{ selling_form.hidden_tag() }}
+          <!-- Confirmation message -->
+          <h4 class="text-center text-gray-200 mb-4">
+            Are you sure you want to sell {{ owned_item.name }} for {{
+            owned_item.price }}$?
+          </h4>
+          <!-- Instructional text -->
+          <p class="text-center text-gray-300 mb-4">
+            Clicking Sell will return this item to the market.
+          </p>
+          <!-- Hidden input for item name -->
+          <input
+            id="sold_item"
+            name="sold_item"
+            type="hidden"
+            value="{{ owned_item.name }}"
+          />
+          <!-- Submit button -->
+          {{ selling_form.submit(class="hover-lift bg-red-600 text-white px-4
+          py-2 rounded-lg w-full") }}
+        </form>
+      </div>
+      <!-- Modal footer -->
+      <div class="p-4 border-t border-gray-700">
+        <!-- Close button -->
+        <button
+          type="button"
+          class="hover-lift bg-gray-600 text-white px-4 py-2 rounded-lg"
+          data-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

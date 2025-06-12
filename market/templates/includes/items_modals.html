@@ -1,0 +1,125 @@
+<!-- More Info Modal -->
+<div
+  class="modal fade"
+  id="Modal-MoreInfo-{{ item.id }}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="ModalLabel-{{ item.id }}"
+  aria-hidden="true"
+>
+  <!-- Modal dialog container -->
+  <div class="modal-dialog" role="document">
+    <!-- Modal content with glassmorphism effect -->
+    <div class="modal-content glass-effect rounded-xl">
+      <!-- Modal header -->
+      <div
+        class="flex justify-between items-center p-4 border-b border-gray-700"
+      >
+        <!-- Item name -->
+        <h5
+          class="text-xl font-bold text-indigo-200"
+          id="ModalLabel-{{ item.id }}"
+        >
+          {{ item.name }}
+        </h5>
+        <!-- Close button -->
+        <button
+          type="button"
+          class="text-white hover:text-gray-300 transition"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Modal body -->
+      <div class="p-4 text-gray-200">{{ item.description }}</div>
+      <!-- Modal footer -->
+      <div class="p-4 border-t border-gray-700">
+        <!-- Close button -->
+        <button
+          type="button"
+          class="hover-lift bg-gray-600 text-white px-4 py-2 rounded-lg"
+          data-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Purchase Confirm Modal -->
+<div
+  class="modal fade"
+  id="Modal-PurchaseConfirm-{{ item.id }}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="ModalLabel-{{ item.id }}"
+  aria-hidden="true"
+>
+  <!-- Modal dialog container -->
+  <div class="modal-dialog" role="document">
+    <!-- Modal content with glassmorphism effect -->
+    <div class="modal-content glass-effect rounded-xl">
+      <!-- Modal header -->
+      <div
+        class="flex justify-between items-center p-4 border-b border-gray-700"
+      >
+        <!-- Item name -->
+        <h5
+          class="text-xl font-bold text-indigo-200"
+          id="ModalLabel-{{ item.id }}"
+        >
+          {{ item.name }}
+        </h5>
+        <!-- Close button -->
+        <button
+          type="button"
+          class="text-white hover:text-gray-300 transition"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Modal body with form -->
+      <div class="p-4">
+        <!-- Form for purchase submission -->
+        <form method="POST" action="{{ url_for('market_page') }}">
+          <!-- CSRF token -->
+          {{ purchase_form.hidden_tag() }}
+          <!-- Confirmation message -->
+          <h4 class="text-center text-gray-200 mb-4">
+            Are you sure you want to buy {{ item.name }} for {{ item.price }}$?
+          </h4>
+          <!-- Instructional text -->
+          <p class="text-center text-gray-300 mb-4">
+            Clicking Purchase will complete the transaction.
+          </p>
+          <!-- Hidden input for item name -->
+          <input
+            id="purchased_item"
+            name="purchased_item"
+            type="hidden"
+            value="{{ item.name }}"
+          />
+          <!-- Submit button -->
+          {{ purchase_form.submit(class="hover-lift bg-green-600 text-white px-4
+          py-2 rounded-lg w-full") }}
+        </form>
+      </div>
+      <!-- Modal footer -->
+      <div class="p-4 border-t border-gray-700">
+        <!-- Close button -->
+        <button
+          type="button"
+          class="hover-lift bg-gray-600 text-white px-4 py-2 rounded-lg"
+          data-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
