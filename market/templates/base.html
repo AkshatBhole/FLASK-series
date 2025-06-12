@@ -153,65 +153,57 @@
     >
       <!-- Container with no padding for edge-to-edge alignment -->
       <div class="w-full flex justify-between items-center px-6">
-        <!-- Brand logo aligned to the leftmost edge -->
-        <a
-          class="text-4xl font-extrabold text-white flex items-center"
-          href="{{ url_for('home_page') }}"
-        >
-          <i class="fas fa-store mr-3 text-purple-400"></i> Flask Market
-        </a>
-        <!-- Navigation links and user profile aligned to the rightmost edge -->
-        <div class="flex items-center space-x-8">
-          <!-- Home link -->
+        <!-- Left: Brand logo and navigation links -->
+        <div class="flex items-center space-x-12">
           <a
-            class="text-lg text-white hover:text-purple-300 transition"
+            class="text-6xl font-extrabold text-white flex items-center"
+            style="letter-spacing: 2px"
+            href="{{ url_for('home_page') }}"
+          >
+            <i
+              class="fas fa-store mr-4 text-purple-400"
+              style="font-size: 4rem"
+            ></i>
+            Flask Market
+          </a>
+          <!-- Navigation links beside logo -->
+          <a
+            class="text-lg text-white hover:text-purple-300 transition font-semibold"
             href="{{ url_for('home_page') }}"
             >Home</a
           >
-          <!-- Market link -->
           <a
-            class="text-lg text-white hover:text-purple-300 transition"
+            class="text-lg text-white hover:text-purple-300 transition font-semibold"
             href="{{ url_for('market_page') }}"
             >Market</a
           >
+        </div>
+        <!-- Right: User profile/auth links -->
+        <div class="flex items-center space-x-8">
           {% if current_user.is_authenticated %}
-          <!-- User profile dropdown -->
-          <div class="relative">
-            <!-- Dropdown trigger -->
-            <button
-              class="flex items-center text-white hover:text-purple-300 transition"
-            >
-              <i class="fas fa-user-circle mr-2 text-2xl"></i>
-              <span>{{ current_user.username }}</span>
-              <i class="fas fa-chevron-down ml-2"></i>
-            </button>
-            <!-- Dropdown menu -->
-            <div
-              class="absolute right-0 mt-2 w-48 glass-effect rounded-lg shadow-lg hidden group-hover:block"
-            >
-              <!-- Budget display -->
-              <div class="px-4 py-2 text-green-400">
-                {{ current_user.prettier_budget }}
-              </div>
-              <!-- Profile link -->
-              <a
-                href="#"
-                class="block px-4 py-2 text-white hover:bg-purple-700 hover:bg-opacity-50 rounded-t-lg"
-                >Profile</a
-              >
-              <!-- Settings link -->
-              <a
-                href="#"
-                class="block px-4 py-2 text-white hover:bg-purple-700 hover:bg-opacity-50"
-                >Settings</a
-              >
-              <!-- Logout link -->
-              <a
-                href="{{ url_for('logout_page') }}"
-                class="block px-4 py-2 text-white hover:bg-purple-700 hover:bg-opacity-50 rounded-b-lg"
-                >Logout</a
+          <div class="flex items-center space-x-8">
+            <!-- Modern Budget Display with Glassmorphism -->
+            <div class="budget-display flex items-center">
+              <i
+                class="fas fa-coins budget-icon mr-2"
+                style="font-size: 1.2rem"
+              ></i>
+              <span class="budget-amount"
+                >{{ current_user.prettier_budget }}</span
               >
             </div>
+            <!-- Welcome User -->
+            <span class="flex items-center text-gradient-accent">
+              <i class="fas fa-user-circle mr-2"></i>
+              Welcome, {{ current_user.username }}
+            </span>
+            <!-- Logout Button -->
+            <a
+              class="flex items-center text-lg text-white hover:text-purple-300 transition"
+              href="{{ url_for('logout_page') }}"
+            >
+              <i class="fas fa-sign-out-alt mr-2"></i>Logout
+            </a>
           </div>
           {% else %}
           <!-- Login link -->
@@ -414,6 +406,16 @@
             .classList.add("hidden");
         });
       });
+
+      // Flash message close button functionality
+      document
+        .querySelectorAll('[data-dismiss="alert"]')
+        .forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            const alert = btn.closest(".glass-effect");
+            if (alert) alert.style.display = "none";
+          });
+        });
     </script>
   </body>
 </html>
