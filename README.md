@@ -39,17 +39,17 @@ This is a beginner-friendly **Flask-based web application** that simulates a sim
 ## 🗂️ Project Structure
 
 -FLASK-series/
-│
-├── market/
-│   ├── __init__.py
-│   ├── routes.py
-│   ├── models.py
-│   ├── forms.py
-│   ├── templates/
-│   └── static/
-├── run.py
-├── requirements.txt
-└── .gitignore
+-│
+-├── market/
+-│   ├── __init__.py
+-│   ├── routes.py
+-│   ├── models.py
+-│   ├── forms.py
+-│   ├── templates/
+-│   └── static/
+-├── run.py
+-├── requirements.txt
+-└── .gitignore
 
 
 ## 🙋‍♂️ Author
